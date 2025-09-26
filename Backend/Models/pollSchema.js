@@ -1,16 +1,14 @@
 const mongoose = require("mongoose");
-const PollSchema = new mongoose.Schema({
-  text: { type: String, required: true },
-  options: [{ type: String }],
-  correctAnswer: { type: String },
-  // studentAnswers: [StudentAnswerSchema],
-  isActive: { type: Boolean, default: true }, 
+
+const pollSchema = new mongoose.Schema({
+  teacherId: { type: String, required: true },
+  question: { type: String, required: true },
+  options:{ type: Map, of: Number, default: {} },
+  correctAnswer:{type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  timeLimit: { type: Number, default: 60 },
+  studentCount:{type: Number, default: 0},
+  status: { type: String, enum: ["active", "inactive"], default: "active" },
+});
 
-},
-  { timestamps: true });
-
-
-const Poll= mongoose.model("PollSchema", PollSchema);
-module.exports = Poll
+const PollSchema = mongoose.model("PollSchema", pollSchema);
+module.exports = PollSchema;
