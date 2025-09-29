@@ -19,7 +19,6 @@ async function createPollService({ role, teacherId, question, options,correctAns
     throw err;
   }
 }
-
 async function findStudentAnswer({ pollId, studentId }) {
   return await StudentAns.findOne({ pollId, studentId });
 }
@@ -37,7 +36,6 @@ async function StudentAnsService({ role, studentId, studentName, answer, pollId 
     throw err;
   }
 }
-
 async function getPollResultService(pollId) {
   try {
     const poll = await Poll.findById(pollId);
@@ -96,4 +94,13 @@ async function chatService({ senderId, senderName, pollId, message }) {
   }
 }
 
-module.exports = { createPollService,StudentAnsService, chatService,findStudentAnswer,updatePollAnswerService,getPollResultService};
+async function getAllPollsService() {
+  try {
+    return await Poll.find().sort({ createdAt: -1 });
+  } catch (err) {
+    throw err;
+  }
+}
+
+
+module.exports = { createPollService,StudentAnsService, chatService,findStudentAnswer,updatePollAnswerService,getPollResultService,getAllPollsService};

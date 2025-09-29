@@ -1,5 +1,4 @@
 import { SparklesIcon } from "@heroicons/react/24/solid";
-import ChatComponent from "./chatComponent";
 import React from "react";
 const logoComponent:React.FC=()=>{
     return(
@@ -10,8 +9,6 @@ const logoComponent:React.FC=()=>{
             </div>
             <div className="font-semibold">Intervue Poll</div>
         </div>
-   
-          <ChatComponent/>
     </div>
     );
 

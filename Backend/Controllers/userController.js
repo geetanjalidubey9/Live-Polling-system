@@ -22,6 +22,19 @@ async function createPollController(req, res) {
   }
 }
 
+async function getAllPollsController(req, res) {
+  try {
+    const polls = await Service.getAllPollsService();
+    if (!polls || polls.length === 0) {
+      return res.status(404).json({ success: false, message: "No polls found" });
+    }
+    res.status(200).json({ success: true, polls });
+  } catch (err) {
+    console.error("Error fetching polls:", err);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+}
+
 async function StudentAnsController(req, res) {
   try {
     const schema = Joi.object({
@@ -62,7 +75,6 @@ async function chatController(req, res) {
     if (error) {
       return res.status(400).json({ success: false, message: error.message });
     }
-
     const user = await Service.chatService(value);
     res.status(201).json({ success: true, user });
   } catch (err) {
@@ -85,5 +97,6 @@ async function pollResultsController(req, res) {
   }
 }
 
-module.exports = { createPollController, StudentAnsController, chatController, pollResultsController };
+
+module.exports = { createPollController, StudentAnsController, chatController, pollResultsController, StudentAnsController,getAllPollsController };
 
