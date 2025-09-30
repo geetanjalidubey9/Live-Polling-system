@@ -136,26 +136,16 @@ socket.on("submit-answer", ({ studentId, pollId, options,answer }) => {
   }
 });
 
-// Inside io.on("connection", socket) { ... }
 
-const pollChats = {}; // Store messages per poll
-
-// Event: Join chat (same as joining poll room)
+const pollChats = {};
 socket.on("join-chat", ({ pollId, studentId, studentName }) => {
   if (!pollId || !studentId || !studentName) return;
-
-  socket.join(pollId); // Join the poll room
-
-  // Initialize chat array for this poll if not exists
+  socket.join(pollId);
   if (!pollChats[pollId]) pollChats[pollId] = [];
-
-  // Optionally send existing chat history to this student
   socket.emit("chat-history", pollChats[pollId]);
-
   console.log(`${studentName} joined chat for poll ${pollId}`);
 });
 
-// Event: Send chat message
 socket.on("send-chat", ({ pollId, studentId, studentName, message }) => {
   if (!pollId || !studentId || !message) return;
   const chatMessage = {
@@ -167,8 +157,7 @@ socket.on("send-chat", ({ pollId, studentId, studentName, message }) => {
 if (!pollChats[pollId]) pollChats[pollId] = [];
 pollChats[pollId].push(chatMessage);
 socket.to(pollId).emit("receive-chat", chatMessage);
-
-  console.log(`Message from ${studentName} in poll ${pollId}: ${message}`);
+console.log(`Message from ${studentName} in poll ${pollId}: ${message}`);
 });
 
 socket.on("disconnect", () => {
