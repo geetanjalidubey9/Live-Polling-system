@@ -4,16 +4,16 @@ const http = require("http");
 const { Server } = require("socket.io");
 const compression=require('compression');
 const helmet= require('helmet');
+require('dotenv').config();
+const PORT=process.env.PORT;
 const app=express();
 const userRoutes=require('./routes/userRoute');
-const PORT=process.env.PORT||8000;
 app.use(helmet())
 app.use(express.json());
 app.use(compression());
 app.use(cors())
 const connectDB = require("./config/dbConnection");
 app.use("/api/users", userRoutes);
-require('dotenv').config();
 connectDB();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
